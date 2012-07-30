@@ -11,8 +11,8 @@
 		<meta name="viewport" content="width=device-width">
 
         <link rel="stylesheet" href="js/libs/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="js/libs/jquery.mobile-sublinks.css" />
         <link rel="stylesheet" href="css/style.css">
-		<script src="js/libs/modernizr-2.5.3.min.js"></script>
 		<script src="js/libs/jquery-1.7.2.min.js"></script>
 		<script src="js/libs/jquery.mobile-1.1.1.min.js"></script>		
         <script src="js/libs/knockout-2.1.0.js"></script>      
@@ -30,16 +30,15 @@
         <div data-role="page" id="venues">
             <div data-role="header" data-position="fixed"><a href="#home" data-icon="back">Back</a><h1>Parking Beagle</h1></div>
             <div data-role="content">
-
-                <div data-bind="foreach: Venues">
+                <div data-bind="foreach: Venues" style="margin: -15px;">
                     <!-- ko if: SubCategories.length == 0 -->
                     <div class="link"><a href="#" data-bind="text: Title" data-role="button" data-corners="false"></a></div>
                     <!-- /ko -->
                     <!-- ko if: SubCategories.length > 0 -->
                     <div class="link-nested">
-                        <div class="link-nested-title" data-bind="text: Title" data-role="button" data-corners="false" data-icon="arrow-r" data-iconpos="right"></div>
+                        <div class="link-nested-title" data-bind="text: Title" data-role="button" data-corners="false" data-icon="arrow-r" data-iconpos="right"  ></div>
                         <div class="link-nested-items" data-bind="foreach: SubCategories" style="display: none">
-                            <div class="link-sub"><a href="#home" data-bind="text: Name" data-role="button" data-corners="false"></a></div>
+                            <div class="link"><a href="#home" data-bind="text: Name" data-role="button" data-corners="false" data-theme="h"></a></div>
                         </div>
                     </div>
                     <!-- /ko -->
@@ -54,7 +53,12 @@
         </script>
 
         <script type="text/javascript">
-            var testData = [{"ID":"10","post_title":"Busch Stadium","lat":"38.623611","lng":"-90.191261","zoom":"15","featured":null,"sub_categories":null},
+            var testData = [
+                {"ID":"10","post_title":"Busch Stadium","lat":"38.623611","lng":"-90.191261","zoom":"15","featured":null,
+                    "sub_categories": [
+                        {"id":"1","name":"St. Louis Cardinals Game","venue_id":"10","lat":"38.623611","lng":"-90.191261"}
+                    ]
+                },
                 {"ID":"14","post_title":"St. Louis Zoo","lat":"38.635025","lng":"-90.290536","zoom":"14","featured":null,"sub_categories":null},
                 {"ID":"12","post_title":"Peabody Opera House","lat":"38.628069","lng":"-90.2010967","zoom":"15","featured":null,"sub_categories":null},
                 {"ID":"59","post_title":"The Muny","lat":"38.640404","lng":"-90.281943","zoom":"15","featured":null,"sub_categories":null},

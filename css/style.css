@@ -1,3 +1,23 @@
-.link-sub {
-	margin-left: 1em;
+.link {
+	margin: 0;
+	border-width: 0;
+	border-top-width: 1px;	
+}
+
+.link a {
+	margin: 0;
+	text-decoration: none;
+}
+
+.link-nested-items{
+	background-color: #ccc;
+	
+}
+
+.link-nested {
+	margin: 0;
+}
+
+.link-nested-title {
+	margin: 0;
 }
