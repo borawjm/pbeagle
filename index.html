@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+	<head>
+		<title>Parking Beagle</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="js/libs/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="css/style.css">
+		<script src="js/libs/modernizr-2.5.3.min.js"></script>
+		<script src="js/libs/jquery-1.7.2.min.js"></script>
+		<script src="js/libs/jquery.mobile-1.1.1.min.js"></script>		
+        <script src="js/libs/knockout-2.1.0.js"></script>      
+	</head>
+	<body>
+		<div data-role="page" id="home">
+			<div data-role="header" data-position="fixed"><h1>Parking Beagle</h1></div>
+			<div data-role="content">
+				<ul data-role="listview" data-theme="c">
+				    <li><a href="#venues">Venues</a></li>
+				</ul>
+			</div>
+		</div>
+		
+        <div data-role="page" id="venues">
+            <div data-role="header" data-position="fixed"><a href="#home" data-icon="back">Back</a><h1>Parking Beagle</h1></div>
+            <div data-role="content">
+
+                <div data-bind="foreach: Venues">
+                    <!-- ko if: SubCategories.length == 0 -->
+                    <div class="link"><a href="#" data-bind="text: Title" data-role="button" data-corners="false"></a></div>
+                    <!-- /ko -->
+                    <!-- ko if: SubCategories.length > 0 -->
+                    <div class="link-nested">
+                        <div class="link-nested-title" data-bind="text: Title" data-role="button" data-corners="false" data-icon="arrow-r" data-iconpos="right"></div>
+                        <div class="link-nested-items" data-bind="foreach: SubCategories" style="display: none">
+                            <div class="link-sub"><a href="#home" data-bind="text: Name" data-role="button" data-corners="false"></a></div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(document).bind("mobileinit", function() {
+                //$.mobile.page.prototype.options.addBackBtn = true;
+            });            
+        </script>
+
+        <script type="text/javascript">
+            var testData = [{"ID":"10","post_title":"Busch Stadium","lat":"38.623611","lng":"-90.191261","zoom":"15","featured":null,"sub_categories":null},
+                {"ID":"14","post_title":"St. Louis Zoo","lat":"38.635025","lng":"-90.290536","zoom":"14","featured":null,"sub_categories":null},
+                {"ID":"12","post_title":"Peabody Opera House","lat":"38.628069","lng":"-90.2010967","zoom":"15","featured":null,"sub_categories":null},
+                {"ID":"59","post_title":"The Muny","lat":"38.640404","lng":"-90.281943","zoom":"15","featured":null,"sub_categories":null},
+                {"ID":"83","post_title":"The Pageant","lat":"38.6555426","lng":"-90.29790222","zoom":"15","featured":null,"sub_categories":null},
+                {"ID":"90","post_title":"MetroLink","lat":"38.6270632","lng":"-90.30624389","zoom":"11","featured":null,
+                    "sub_categories": [
+                        {"id":"2","name":"Shrewsbury-Lansdowne I-44","venue_id":"90","lat":"38.6270632","lng":"-90.30624389"},
+                        {"id":"3","name":"Brentwood I-64","venue_id":"90","lat":"38.6270632","lng":"-90.30624389"},
+                        {"id":"5","name":"Richmond Heights","venue_id":"90","lat":"38.6270632","lng":"-90.30624389"}
+                    ]
+                }]; 
+            
+            
+            var Category = function(data){
+                var self = this;
+                self.Name = data.name;
+            };
+        
+            var Venue = function(data)
+            {
+                var self = this;
+                self.Title = data.post_title;
+                self.SubCategories = [];
+                if (data.sub_categories != null) {
+                    self.SubCategories = ko.utils.arrayMap(data.sub_categories, function(categoryData) {
+                        return new Category(categoryData);
+                    });
+               }
+            };
+            
+            var VenuesViewModel = function()
+            {
+                var self = this;
+                self.Venues = [];
+                
+                self.loadVenues = function(venues) {
+                    self.Venues = ko.utils.arrayMap(venues, function(venueData) {
+                        return new Venue(venueData);
+                    });
+                }
+                
+                self.loadVenues(testData);
+            };
+           
+            var vm = new VenuesViewModel();
+            ko.applyBindings(vm);
+            
+            $(document).ready(function() {
+                var $title = $(".link-nested-title");
+                $title.click(function() {
+                    $(this).next().toggle();
+                });
+            });
+        </script>
+        
+		<script src="js/script.js"></script>
+	</body>
+</html>
